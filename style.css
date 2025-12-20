@@ -25,6 +25,7 @@ header input {
 .cart {
   margin-top: 10px;
   cursor: pointer;
+  font-weight: bold;
 }
 
 .food-list {
@@ -41,17 +42,13 @@ header input {
   text-align: center;
 }
 
-.food-item h3 {
-  margin: 5px 0;
-}
-
 .food-item button {
   background: #ff5722;
   color: white;
   border: none;
   padding: 6px 10px;
-  cursor: pointer;
   border-radius: 4px;
+  cursor: pointer;
 }
 
 .modal {
