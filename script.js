@@ -5,7 +5,8 @@ const foods = [
   { id: 4, name: "Sandwich", price: 90 }
 ];
 
-let cart = [];
+// Cart as object (FIX)
+let cart = {};
 
 const foodList = document.getElementById("food-list");
 const cartCount = document.getElementById("cart-count");
@@ -13,7 +14,7 @@ const cartModal = document.getElementById("cart-modal");
 const cartItems = document.getElementById("cart-items");
 const searchInput = document.getElementById("search");
 
-// Show food
+// Render foods
 function displayFoods(items) {
   foodList.innerHTML = "";
   items.forEach(food => {
@@ -28,20 +29,30 @@ function displayFoods(items) {
   });
 }
 
-// Add to cart
+// ✅ FIXED add to cart
 function addToCart(id) {
-  const food = foods.find(f => f.id === id);
-  cart.push(food);
-  cartCount.innerText = cart.length;
-  showCart();
+  if (cart[id]) {
+    cart[id].qty += 1;
+  } else {
+    const food = foods.find(f => f.id === id);
+    cart[id] = { ...food, qty: 1 };
+  }
+  updateCartCount();
 }
 
-// Show cart
-function showCart() {
+// Update cart count
+function updateCartCount() {
+  let total = 0;
+  Object.values(cart).forEach(item => total += item.qty);
+  cartCount.innerText = total;
+}
+
+// Open cart
+function openCart() {
   cartItems.innerHTML = "";
-  cart.forEach(item => {
+  Object.values(cart).forEach(item => {
     const li = document.createElement("li");
-    li.innerText = item.name + " - ₹" + item.price;
+    li.innerText = `${item.name} x ${item.qty} = ₹${item.price * item.qty}`;
     cartItems.appendChild(li);
   });
   cartModal.style.display = "block";
@@ -55,14 +66,11 @@ function closeCart() {
 // Search
 searchInput.addEventListener("input", () => {
   const value = searchInput.value.toLowerCase();
-  const filtered = foods.filter(food =>
-    food.name.toLowerCase().includes(value)
+  const filtered = foods.filter(f =>
+    f.name.toLowerCase().includes(value)
   );
   displayFoods(filtered);
 });
 
 // Initial load
 displayFoods(foods);
-
-// Cart click
-document.querySelector(".cart").addEventListener("click", showCart);
