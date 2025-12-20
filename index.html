@@ -9,45 +9,38 @@
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#ff5722">
 
-  <!-- CSS -->
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <header>
-    <h1>🍔 Food Delivery</h1>
-
-    <input type="text" id="search" placeholder="Search food...">
-
-    <div class="cart">
-      🛒 Cart: <span id="cart-count">0</span>
-    </div>
-  </header>
-
-  <main>
-    <div id="food-list" class="food-list">
-      <!-- Food items render here -->
-    </div>
-  </main>
-
-  <!-- Cart Modal -->
-  <div id="cart-modal" class="modal">
-    <div class="modal-content">
-      <h2>Your Cart</h2>
-      <ul id="cart-items"></ul>
-      <button onclick="closeCart()">Close</button>
-    </div>
+<header>
+  <h1>🍔 Food Delivery</h1>
+  <input type="text" id="search" placeholder="Search food...">
+  <div class="cart" onclick="openCart()">
+    🛒 Cart: <span id="cart-count">0</span>
   </div>
+</header>
 
-  <!-- JS -->
-  <script src="script.js"></script>
+<main>
+  <div id="food-list" class="food-list"></div>
+</main>
 
-  <!-- Service Worker -->
-  <script>
-    if ("serviceWorker" in navigator) {
-      navigator.serviceWorker.register("service-worker.js");
-    }
-  </script>
+<!-- Cart Modal -->
+<div id="cart-modal" class="modal">
+  <div class="modal-content">
+    <h2>Your Cart</h2>
+    <ul id="cart-items"></ul>
+    <button onclick="closeCart()">Close</button>
+  </div>
+</div>
+
+<script src="script.js"></script>
+
+<script>
+  if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.register("service-worker.js");
+  }
+</script>
 
 </body>
 </html>
