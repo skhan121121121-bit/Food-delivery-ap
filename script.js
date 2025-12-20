@@ -5,7 +5,6 @@ const foods = [
   { id: 4, name: "Sandwich", price: 90 }
 ];
 
-// Cart as object (FIX)
 let cart = {};
 
 const foodList = document.getElementById("food-list");
@@ -14,7 +13,7 @@ const cartModal = document.getElementById("cart-modal");
 const cartItems = document.getElementById("cart-items");
 const searchInput = document.getElementById("search");
 
-// Render foods
+// Render food items
 function displayFoods(items) {
   foodList.innerHTML = "";
   items.forEach(food => {
@@ -29,7 +28,7 @@ function displayFoods(items) {
   });
 }
 
-// ✅ FIXED add to cart
+// Add to cart (FIXED)
 function addToCart(id) {
   if (cart[id]) {
     cart[id].qty += 1;
@@ -47,7 +46,7 @@ function updateCartCount() {
   cartCount.innerText = total;
 }
 
-// Open cart
+// Open cart modal
 function openCart() {
   cartItems.innerHTML = "";
   Object.values(cart).forEach(item => {
@@ -58,19 +57,5 @@ function openCart() {
   cartModal.style.display = "block";
 }
 
-// Close cart
+// Close cart modal
 function closeCart() {
-  cartModal.style.display = "none";
-}
-
-// Search
-searchInput.addEventListener("input", () => {
-  const value = searchInput.value.toLowerCase();
-  const filtered = foods.filter(f =>
-    f.name.toLowerCase().includes(value)
-  );
-  displayFoods(filtered);
-});
-
-// Initial load
-displayFoods(foods);
