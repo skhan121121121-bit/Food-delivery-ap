@@ -5,6 +5,10 @@
   <title>Food Delivery App</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+  <!-- PWA -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#ff5722">
+
   <!-- CSS -->
   <link rel="stylesheet" href="style.css">
 </head>
@@ -12,7 +16,9 @@
 
   <header>
     <h1>🍔 Food Delivery</h1>
+
     <input type="text" id="search" placeholder="Search food...">
+
     <div class="cart">
       🛒 Cart: <span id="cart-count">0</span>
     </div>
@@ -20,7 +26,7 @@
 
   <main>
     <div id="food-list" class="food-list">
-      <!-- Food items will appear here -->
+      <!-- Food items render here -->
     </div>
   </main>
 
@@ -35,5 +41,13 @@
 
   <!-- JS -->
   <script src="script.js"></script>
+
+  <!-- Service Worker -->
+  <script>
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.register("service-worker.js");
+    }
+  </script>
+
 </body>
 </html>
