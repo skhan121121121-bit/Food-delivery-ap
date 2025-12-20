@@ -29,7 +29,14 @@
 <div id="cart-modal" class="modal">
   <div class="modal-content">
     <h2>Your Cart</h2>
+
     <ul id="cart-items"></ul>
+
+    <input type="text" id="cust-name" placeholder="Your Name">
+    <input type="tel" id="cust-phone" placeholder="Phone Number">
+    <textarea id="cust-address" placeholder="Delivery Address"></textarea>
+
+    <button onclick="sendWhatsApp()">Order via WhatsApp</button>
     <button onclick="closeCart()">Close</button>
   </div>
 </div>
