@@ -59,3 +59,43 @@ function openCart() {
 
 // Close cart modal
 function closeCart() {
+  cartModal.style.display = "none";
+}
+
+// Send order to WhatsApp
+function sendWhatsApp() {
+  const name = document.getElementById("cust-name").value;
+  const phone = document.getElementById("cust-phone").value;
+  const address = document.getElementById("cust-address").value;
+
+  if (!name || !phone || !address) {
+    alert("Please fill all details");
+    return;
+  }
+
+  let message = `*New Food Order*%0A`;
+  message += `Name: ${name}%0A`;
+  message += `Phone: ${phone}%0A`;
+  message += `Address: ${address}%0A%0A`;
+  message += `*Order Items*:%0A`;
+
+  Object.values(cart).forEach(item => {
+    message += `${item.name} x ${item.qty} = ₹${item.price * item.qty}%0A`;
+  });
+
+  const whatsappNumber = "918392010029"; 
+  const url = `https://wa.me/${whatsappNumber}?text=${message}`;
+  window.open(url, "_blank");
+}
+
+// Search filter
+searchInput.addEventListener("input", () => {
+  const value = searchInput.value.toLowerCase();
+  const filtered = foods.filter(food =>
+    food.name.toLowerCase().includes(value)
+  );
+  displayFoods(filtered);
+});
+
+// Initial load
+displayFoods(foods);
