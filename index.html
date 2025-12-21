@@ -1,67 +1,53 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
   <meta charset="UTF-8">
-  <title>Food Delivery App</title>
+  <title>Food Delivery</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="style.css">
+
+  <!-- Firebase library -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 </head>
 <body>
 
 <header>
   <h2>🍔 Food Delivery</h2>
-  <button class="cart-btn" onclick="openCart()">
-    🛒 Cart (<span id="cartCount">0</span>)
-  </button>
+  <button onclick="openCart()">🛒 Cart (<span id="cartCount">0</span>)</button>
 </header>
 
-<section class="food-list">
-  <div class="food-card">
-    <div>
-      <h3>Burger</h3>
-      <p>₹120</p>
-    </div>
+<div class="food">
+  <div>
+    <b>Burger</b> ₹120
     <button onclick="addToCart('Burger',120)">Add</button>
   </div>
 
-  <div class="food-card">
-    <div>
-      <h3>Pizza</h3>
-      <p>₹250</p>
-    </div>
+  <div>
+    <b>Pizza</b> ₹250
     <button onclick="addToCart('Pizza',250)">Add</button>
   </div>
 
-  <div class="food-card">
-    <div>
-      <h3>Biryani</h3>
-      <p>₹180</p>
-    </div>
+  <div>
+    <b>Biryani</b> ₹180
     <button onclick="addToCart('Biryani',180)">Add</button>
-  </div>
-</section>
-
-<!-- CART MODAL -->
-<div class="modal" id="cartModal">
-  <div class="modal-content">
-    <h3>Your Cart</h3>
-
-    <div id="cartItems"></div>
-
-    <h4>Total: ₹<span id="totalPrice">0</span></h4>
-
-    <input id="custName" placeholder="Name">
-    <input id="custPhone" placeholder="Phone">
-    <textarea id="custAddress" placeholder="Delivery Address"></textarea>
-
-    <button onclick="placeOrder()">Order via WhatsApp</button>
-    <button class="close-btn" onclick="closeCart()">Close</button>
   </div>
 </div>
 
-<footer>
-  <a href="admin.html">👨‍💼 Admin Panel</a>
-</footer>
+<div id="cartBox">
+  <h3>Cart</h3>
+  <div id="cartItems"></div>
+  <b>Total ₹<span id="total">0</span></b>
+
+  <input id="name" placeholder="Name">
+  <input id="phone" placeholder="Phone">
+  <textarea id="address" placeholder="Address"></textarea>
+
+  <button onclick="placeOrder()">Order</button>
+  <button onclick="closeCart()">Close</button>
+</div>
+
+<a href="admin.html">Admin Panel</a>
 
 <script src="script.js"></script>
 </body>
