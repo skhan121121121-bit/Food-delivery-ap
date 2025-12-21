@@ -1,36 +1,42 @@
 let cart = [];
 
-function addToCart(itemName) {
-  cart.push(itemName);
+function addToCart(item) {
+  cart.push(item);
   document.getElementById("cartCount").innerText = cart.length;
 }
 
-function openCart() {
+function openOrderForm() {
   if (cart.length === 0) {
     alert("Cart is empty");
     return;
   }
+  document.getElementById("orderModal").style.display = "block";
+}
 
-  let name = prompt("Enter your name:");
-  if (!name) return;
+function closeOrderForm() {
+  document.getElementById("orderModal").style.display = "none";
+}
 
-  let phone = prompt("Enter your phone number:");
-  if (!phone) return;
+function placeOrder() {
+  let name = document.getElementById("custName").value;
+  let phone = document.getElementById("custPhone").value;
+  let address = document.getElementById("custAddress").value;
 
-  let address = prompt("Enter delivery address:");
-  if (!address) return;
+  if (!name || !phone || !address) {
+    alert("Please fill all details");
+    return;
+  }
 
-  let message = "🛒 New Food Order %0A%0A";
-  message += "Name: " + name + "%0A";
-  message += "Phone: " + phone + "%0A";
-  message += "Address: " + address + "%0A%0A";
-  message += "Items:%0A";
+  let msg = "🍔 New Food Order%0A%0A";
+  msg += "Name: " + name + "%0A";
+  msg += "Phone: " + phone + "%0A";
+  msg += "Address: " + address + "%0A%0A";
+  msg += "Items:%0A";
 
-  cart.forEach((item, index) => {
-    message += `${index + 1}. ${item}%0A`;
+  cart.forEach((item, i) => {
+    msg += `${i + 1}. ${item}%0A`;
   });
 
-  const shopNumber = "8392010029";
-  const url = `https://wa.me/91${shopNumber}?text=${message}`;
-  window.open(url, "_blank");
+  const whatsapp = "8392010029";
+  window.open(`https://wa.me/91${whatsapp}?text=${msg}`, "_blank");
 }
