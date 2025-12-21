@@ -4,46 +4,58 @@
   <meta charset="UTF-8">
   <title>Food Order App</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
 <header>
   <h2>🍔 Food Delivery</h2>
-  <button class="cart-btn" onclick="openOrderForm()">
+  <button class="cart-btn" onclick="openCart()">
     🛒 Cart (<span id="cartCount">0</span>)
   </button>
 </header>
 
 <section class="food-list">
   <div class="food-card">
-    <h3>Burger</h3>
-    <button onclick="addToCart('Burger')">Add</button>
+    <div>
+      <h3>Burger</h3>
+      <p>₹120</p>
+    </div>
+    <button onclick="addToCart('Burger',120)">Add</button>
   </div>
 
   <div class="food-card">
-    <h3>Pizza</h3>
-    <button onclick="addToCart('Pizza')">Add</button>
+    <div>
+      <h3>Pizza</h3>
+      <p>₹250</p>
+    </div>
+    <button onclick="addToCart('Pizza',250)">Add</button>
   </div>
 
   <div class="food-card">
-    <h3>Biryani</h3>
-    <button onclick="addToCart('Biryani')">Add</button>
+    <div>
+      <h3>Biryani</h3>
+      <p>₹180</p>
+    </div>
+    <button onclick="addToCart('Biryani',180)">Add</button>
   </div>
 </section>
 
-<!-- ORDER FORM MODAL -->
-<div class="modal" id="orderModal">
+<!-- CART + ORDER FORM -->
+<div class="modal" id="cartModal">
   <div class="modal-content">
-    <h3>📝 Order Details</h3>
+    <h3>Your Cart</h3>
 
-    <input type="text" id="custName" placeholder="Your Name">
-    <input type="tel" id="custPhone" placeholder="Phone Number">
+    <div id="cartItems"></div>
+
+    <h4>Total: ₹<span id="totalPrice">0</span></h4>
+
+    <input id="custName" placeholder="Your Name">
+    <input id="custPhone" placeholder="Phone Number">
     <textarea id="custAddress" placeholder="Delivery Address"></textarea>
 
-    <button onclick="placeOrder()">Place Order via WhatsApp</button>
-    <button class="close-btn" onclick="closeOrderForm()">Cancel</button>
+    <button onclick="placeOrder()">Order via WhatsApp</button>
+    <button class="close-btn" onclick="closeCart()">Close</button>
   </div>
 </div>
 
