@@ -28,7 +28,7 @@ function displayFoods(items) {
   });
 }
 
-// Add to cart (FIXED)
+// Add to cart
 function addToCart(id) {
   if (cart[id]) {
     cart[id].qty += 1;
@@ -46,49 +46,63 @@ function updateCartCount() {
   cartCount.innerText = total;
 }
 
-// Open cart modal
+// Open cart
 function openCart() {
   cartItems.innerHTML = "";
-  Object.values(cart).forEach(item => {
-    const li = document.createElement("li");
-    li.innerText = `${item.name} x ${item.qty} = ₹${item.price * item.qty}`;
-    cartItems.appendChild(li);
-  });
+
+  if (Object.keys(cart).length === 0) {
+    cartItems.innerHTML = "<li>Cart is empty</li>";
+  } else {
+    Object.values(cart).forEach(item => {
+      const li = document.createElement("li");
+      li.innerText = `${item.name} x ${item.qty} = ₹${item.price * item.qty}`;
+      cartItems.appendChild(li);
+    });
+  }
+
   cartModal.style.display = "block";
 }
 
-// Close cart modal
+// Close cart
 function closeCart() {
   cartModal.style.display = "none";
 }
 
-// Send order to WhatsApp
+// ✅ GUARANTEED WhatsApp Order
 function sendWhatsApp() {
-  const name = document.getElementById("cust-name").value;
-  const phone = document.getElementById("cust-phone").value;
-  const address = document.getElementById("cust-address").value;
+  if (Object.keys(cart).length === 0) {
+    alert("Please add items to cart");
+    return;
+  }
+
+  const name = document.getElementById("cust-name").value.trim();
+  const phone = document.getElementById("cust-phone").value.trim();
+  const address = document.getElementById("cust-address").value.trim();
 
   if (!name || !phone || !address) {
     alert("Please fill all details");
     return;
   }
 
-  let message = `*New Food Order*%0A`;
-  message += `Name: ${name}%0A`;
-  message += `Phone: ${phone}%0A`;
-  message += `Address: ${address}%0A%0A`;
-  message += `*Order Items*:%0A`;
+  let message = `New Food Order\n\n`;
+  message += `Name: ${name}\n`;
+  message += `Phone: ${phone}\n`;
+  message += `Address: ${address}\n\n`;
+  message += `Order Items:\n`;
 
   Object.values(cart).forEach(item => {
-    message += `${item.name} x ${item.qty} = ₹${item.price * item.qty}%0A`;
+    message += `${item.name} x ${item.qty} = ₹${item.price * item.qty}\n`;
   });
 
-  const whatsappNumber = "918392010029"; 
-  const url = `https://wa.me/${whatsappNumber}?text=${message}`;
+  const whatsappNumber = "918392010029"; // ✅ আপনার নম্বর
+  const encodedMessage = encodeURIComponent(message);
+
+  const url = `https://api.whatsapp.com/send?phone=${whatsappNumber}&text=${encodedMessage}`;
+
   window.open(url, "_blank");
 }
 
-// Search filter
+// Search
 searchInput.addEventListener("input", () => {
   const value = searchInput.value.toLowerCase();
   const filtered = foods.filter(food =>
