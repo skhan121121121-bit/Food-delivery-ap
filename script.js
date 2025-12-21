@@ -5,48 +5,69 @@ const firebaseConfig = {
   projectId: "PASTE_HERE"
 };
 
-// init firebase
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
 let cart = {};
 
 function addToCart(name, price) {
-  cart[name] = cart[name] ? {price, qty: cart[name].qty+1} : {price, qty:1};
-  update();
+  cart[name]
+    ? cart[name].qty++
+    : cart[name] = { price: price, qty: 1 };
+  updateCart();
 }
 
-function update() {
-  let count = 0, total = 0;
-  cartItems.innerHTML = "";
-  for (let i in cart) {
-    count += cart[i].qty;
-    total += cart[i].price * cart[i].qty;
-    cartItems.innerHTML += `<div>${i} x ${cart[i].qty}</div>`;
+function updateCart() {
+  let count = 0;
+  let totalPrice = 0;
+  document.getElementById("cartItems").innerHTML = "";
+
+  for (let item in cart) {
+    count += cart[item].qty;
+    totalPrice += cart[item].price * cart[item].qty;
+
+    document.getElementById("cartItems").innerHTML += `
+      <div>${item} x ${cart[item].qty}</div>
+    `;
   }
-  cartCount.innerText = count;
-  total.innerText = total;
+
+  document.getElementById("cartCount").innerText = count;
+  document.getElementById("total").innerText = totalPrice;
 }
 
-function openCart(){ cartBox.style.display="block"; }
-function closeCart(){ cartBox.style.display="none"; }
+function openCart() {
+  document.getElementById("cartBox").style.display = "block";
+}
 
-function placeOrder(){
-  if(!name.value || !phone.value || !address.value){
+function closeCart() {
+  document.getElementById("cartBox").style.display = "none";
+}
+
+function placeOrder() {
+  const custName = document.getElementById("name").value.trim();
+  const custPhone = document.getElementById("phone").value.trim();
+  const custAddress = document.getElementById("address").value.trim();
+
+  if (custName === "" || custPhone === "" || custAddress === "") {
     alert("Fill all");
     return;
   }
 
   db.collection("orders").add({
-    name: name.value,
-    phone: phone.value,
-    address: address.value,
-    cart,
+    name: custName,
+    phone: custPhone,
+    address: custAddress,
+    items: cart,
     time: new Date().toLocaleString()
   });
 
-  alert("Order Sent");
+  alert("Order placed successfully");
+
   cart = {};
-  update();
+  updateCart();
   closeCart();
-}
+
+  document.getElementById("name").value = "";
+  document.getElementById("phone").value = "";
+  document.getElementById("address").value = "";
+    }
