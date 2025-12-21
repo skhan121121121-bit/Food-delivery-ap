@@ -1,115 +1,93 @@
 const foods = [
-  { id: 1, name: "Burger", price: 120 },
-  { id: 2, name: "Pizza", price: 250 },
-  { id: 3, name: "Biryani", price: 180 },
-  { id: 4, name: "Sandwich", price: 90 }
+  {id:1,name:"Burger",price:120},
+  {id:2,name:"Pizza",price:250},
+  {id:3,name:"Biryani",price:180},
+  {id:4,name:"Sandwich",price:90}
 ];
 
 let cart = {};
 
-const foodList = document.getElementById("food-list");
+const list = document.getElementById("food-list");
 const cartCount = document.getElementById("cart-count");
-const cartModal = document.getElementById("cart-modal");
 const cartItems = document.getElementById("cart-items");
-const searchInput = document.getElementById("search");
+const modal = document.getElementById("cart-modal");
+const search = document.getElementById("search");
 
-// Render food items
-function displayFoods(items) {
-  foodList.innerHTML = "";
-  items.forEach(food => {
-    const div = document.createElement("div");
-    div.className = "food-item";
-    div.innerHTML = `
-      <h3>${food.name}</h3>
-      <p>₹${food.price}</p>
-      <button onclick="addToCart(${food.id})">Add to Cart</button>
+function showFoods(arr){
+  list.innerHTML="";
+  arr.forEach(f=>{
+    const d=document.createElement("div");
+    d.className="food";
+    d.innerHTML=`
+      <h4>${f.name}</h4>
+      <p>₹${f.price}</p>
+      <button onclick="add(${f.id})">Add</button>
     `;
-    foodList.appendChild(div);
+    list.appendChild(d);
   });
 }
 
-// Add to cart
-function addToCart(id) {
-  if (cart[id]) {
-    cart[id].qty += 1;
-  } else {
-    const food = foods.find(f => f.id === id);
-    cart[id] = { ...food, qty: 1 };
+function add(id){
+  if(cart[id]) cart[id].qty++;
+  else{
+    const f=foods.find(x=>x.id===id);
+    cart[id]={...f,qty:1};
   }
-  updateCartCount();
+  updateCount();
 }
 
-// Update cart count
-function updateCartCount() {
-  let total = 0;
-  Object.values(cart).forEach(item => total += item.qty);
-  cartCount.innerText = total;
+function updateCount(){
+  let t=0;
+  Object.values(cart).forEach(i=>t+=i.qty);
+  cartCount.innerText=t;
 }
 
-// Open cart
-function openCart() {
-  cartItems.innerHTML = "";
-
-  if (Object.keys(cart).length === 0) {
-    cartItems.innerHTML = "<li>Cart is empty</li>";
+function openCart(){
+  cartItems.innerHTML="";
+  if(Object.keys(cart).length===0){
+    cartItems.innerHTML="<li>Cart empty</li>";
   } else {
-    Object.values(cart).forEach(item => {
-      const li = document.createElement("li");
-      li.innerText = `${item.name} x ${item.qty} = ₹${item.price * item.qty}`;
+    Object.values(cart).forEach(i=>{
+      const li=document.createElement("li");
+      li.innerText=`${i.name} x ${i.qty}`;
       cartItems.appendChild(li);
     });
   }
-
-  cartModal.style.display = "block";
+  modal.style.display="block";
 }
 
-// Close cart
-function closeCart() {
-  cartModal.style.display = "none";
+function closeCart(){
+  modal.style.display="none";
 }
 
-// ✅ GUARANTEED WhatsApp Order
-function sendWhatsApp() {
-  if (Object.keys(cart).length === 0) {
-    alert("Please add items to cart");
+/* 🔥 GUARANTEED WHATSAPP */
+function prepareWhatsApp(){
+  if(Object.keys(cart).length===0){
+    alert("Add item first");
     return;
   }
 
-  const name = document.getElementById("cust-name").value.trim();
-  const phone = document.getElementById("cust-phone").value.trim();
-  const address = document.getElementById("cust-address").value.trim();
+  const name=document.getElementById("cust-name").value;
+  const phone=document.getElementById("cust-phone").value;
+  const address=document.getElementById("cust-address").value;
 
-  if (!name || !phone || !address) {
-    alert("Please fill all details");
-    return;
-  }
+  let msg="Food Order\n\n";
+  msg+="Name: "+name+"\n";
+  msg+="Phone: "+phone+"\n";
+  msg+="Address: "+address+"\n\n";
 
-  let message = `New Food Order\n\n`;
-  message += `Name: ${name}\n`;
-  message += `Phone: ${phone}\n`;
-  message += `Address: ${address}\n\n`;
-  message += `Order Items:\n`;
-
-  Object.values(cart).forEach(item => {
-    message += `${item.name} x ${item.qty} = ₹${item.price * item.qty}\n`;
+  Object.values(cart).forEach(i=>{
+    msg+=`${i.name} x ${i.qty}\n`;
   });
 
-  const whatsappNumber = "918392010029"; // ✅ আপনার নম্বর
-  const encodedMessage = encodeURIComponent(message);
-
-  const url = `https://api.whatsapp.com/send?phone=${whatsappNumber}&text=${encodedMessage}`;
-
-  window.open(url, "_blank");
+  document.getElementById("waLink").href =
+    "https://api.whatsapp.com/send?phone=918392010029&text=" +
+    encodeURIComponent(msg);
 }
 
-// Search
-searchInput.addEventListener("input", () => {
-  const value = searchInput.value.toLowerCase();
-  const filtered = foods.filter(food =>
-    food.name.toLowerCase().includes(value)
-  );
-  displayFoods(filtered);
+search.addEventListener("input",()=>{
+  const v=search.value.toLowerCase();
+  showFoods(foods.filter(f=>f.name.toLowerCase().includes(v)));
 });
 
-// Initial load
-displayFoods(foods);
+showFoods(foods);
