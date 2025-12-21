@@ -11,12 +11,26 @@ function openCart() {
     return;
   }
 
-  let message = "New Order:%0A";
+  let name = prompt("Enter your name:");
+  if (!name) return;
+
+  let phone = prompt("Enter your phone number:");
+  if (!phone) return;
+
+  let address = prompt("Enter delivery address:");
+  if (!address) return;
+
+  let message = "🛒 New Food Order %0A%0A";
+  message += "Name: " + name + "%0A";
+  message += "Phone: " + phone + "%0A";
+  message += "Address: " + address + "%0A%0A";
+  message += "Items:%0A";
+
   cart.forEach((item, index) => {
     message += `${index + 1}. ${item}%0A`;
   });
 
-  const phone = "8392010029";
-  const url = `https://wa.me/91${phone}?text=${message}`;
+  const shopNumber = "8392010029";
+  const url = `https://wa.me/91${shopNumber}?text=${message}`;
   window.open(url, "_blank");
 }
