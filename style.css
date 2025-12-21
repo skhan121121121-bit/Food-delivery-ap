@@ -1,7 +1,7 @@
 body {
   margin: 0;
   font-family: Arial, sans-serif;
-  background: #f5f5f5;
+  background: #f4f4f4;
 }
 
 header {
@@ -32,6 +32,7 @@ header {
   border-radius: 8px;
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 
 .food-card button {
@@ -53,17 +54,29 @@ header {
 .modal-content {
   background: white;
   width: 90%;
-  max-width: 400px;
-  margin: 80px auto;
+  max-width: 420px;
+  margin: 60px auto;
   padding: 20px;
   border-radius: 10px;
+}
+
+.cart-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.qty-btn {
+  padding: 4px 10px;
+  font-size: 16px;
 }
 
 .modal-content input,
 .modal-content textarea {
   width: 100%;
-  margin-bottom: 10px;
   padding: 10px;
+  margin: 8px 0;
 }
 
 .modal-content button {
