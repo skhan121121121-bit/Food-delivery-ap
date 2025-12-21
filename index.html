@@ -1,42 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Food Delivery</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Food Delivery App</title>
 
-<link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css" />
+  <link rel="manifest" href="manifest.json" />
 </head>
+
 <body>
 
-<header>
-  <h2>🍔 Food Delivery</h2>
-  <input id="search" type="text" placeholder="Search food">
-  <div class="cart" onclick="openCart()">🛒 Cart (<span id="cart-count">0</span>)</div>
-</header>
+  <header class="header">
+    <h1>Food Delivery</h1>
+    <input type="text" placeholder="Search food..." />
+  </header>
 
-<div id="food-list" class="food-list"></div>
+  <section class="items">
+    <div class="item">
+      <h3>Chicken Biryani</h3>
+      <button onclick="addToCart('Chicken Biryani')">Add to Cart</button>
+    </div>
 
-<!-- CART MODAL -->
-<div id="cart-modal" class="modal">
-  <div class="modal-content">
-    <h3>Your Cart</h3>
+    <div class="item">
+      <h3>Paneer Butter Masala</h3>
+      <button onclick="addToCart('Paneer Butter Masala')">Add to Cart</button>
+    </div>
 
-    <ul id="cart-items"></ul>
+    <div class="item">
+      <h3>Veg Fried Rice</h3>
+      <button onclick="addToCart('Veg Fried Rice')">Add to Cart</button>
+    </div>
+  </section>
 
-    <input id="cust-name" placeholder="Name">
-    <input id="cust-phone" placeholder="Phone">
-    <textarea id="cust-address" placeholder="Address"></textarea>
-
-    <!-- REAL LINK -->
-    <a id="waLink" target="_blank">
-      <button onclick="prepareWhatsApp()">Order via WhatsApp</button>
-    </a>
-
-    <button class="close" onclick="closeCart()">Close</button>
+  <!-- Floating Cart Button -->
+  <div id="cartButton" onclick="openCart()">
+    🛒 <span id="cartCount">0</span>
   </div>
-</div>
 
-<script src="script.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
