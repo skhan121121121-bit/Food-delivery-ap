@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Food Order App</title>
+  <title>Food Delivery App</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="style.css">
 </head>
@@ -41,7 +41,7 @@
   </div>
 </section>
 
-<!-- CART + ORDER FORM -->
+<!-- CART MODAL -->
 <div class="modal" id="cartModal">
   <div class="modal-content">
     <h3>Your Cart</h3>
@@ -50,14 +50,18 @@
 
     <h4>Total: ₹<span id="totalPrice">0</span></h4>
 
-    <input id="custName" placeholder="Your Name">
-    <input id="custPhone" placeholder="Phone Number">
+    <input id="custName" placeholder="Name">
+    <input id="custPhone" placeholder="Phone">
     <textarea id="custAddress" placeholder="Delivery Address"></textarea>
 
     <button onclick="placeOrder()">Order via WhatsApp</button>
     <button class="close-btn" onclick="closeCart()">Close</button>
   </div>
 </div>
+
+<footer>
+  <a href="admin.html">👨‍💼 Admin Panel</a>
+</footer>
 
 <script src="script.js"></script>
 </body>
