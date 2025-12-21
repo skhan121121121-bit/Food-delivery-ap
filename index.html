@@ -1,53 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Food Delivery App</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="UTF-8">
+<title>Food Delivery</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <!-- PWA -->
-  <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#ff5722">
-
-  <link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
 
 <header>
-  <h1>🍔 Food Delivery</h1>
-  <input type="text" id="search" placeholder="Search food...">
-  <div class="cart" onclick="openCart()">
-    🛒 Cart: <span id="cart-count">0</span>
-  </div>
+  <h2>🍔 Food Delivery</h2>
+  <input id="search" type="text" placeholder="Search food">
+  <div class="cart" onclick="openCart()">🛒 Cart (<span id="cart-count">0</span>)</div>
 </header>
 
-<main>
-  <div id="food-list" class="food-list"></div>
-</main>
+<div id="food-list" class="food-list"></div>
 
-<!-- Cart Modal -->
+<!-- CART MODAL -->
 <div id="cart-modal" class="modal">
   <div class="modal-content">
-    <h2>Your Cart</h2>
+    <h3>Your Cart</h3>
 
     <ul id="cart-items"></ul>
 
-    <input type="text" id="cust-name" placeholder="Your Name">
-    <input type="tel" id="cust-phone" placeholder="Phone Number">
-    <textarea id="cust-address" placeholder="Delivery Address"></textarea>
+    <input id="cust-name" placeholder="Name">
+    <input id="cust-phone" placeholder="Phone">
+    <textarea id="cust-address" placeholder="Address"></textarea>
 
-    <button onclick="sendWhatsApp()">Order via WhatsApp</button>
-    <button onclick="closeCart()">Close</button>
+    <!-- REAL LINK -->
+    <a id="waLink" target="_blank">
+      <button onclick="prepareWhatsApp()">Order via WhatsApp</button>
+    </a>
+
+    <button class="close" onclick="closeCart()">Close</button>
   </div>
 </div>
 
 <script src="script.js"></script>
-
-<script>
-  if ("serviceWorker" in navigator) {
-    navigator.serviceWorker.register("service-worker.js");
-  }
-</script>
-
 </body>
 </html>
