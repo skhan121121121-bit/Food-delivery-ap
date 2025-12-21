@@ -4,16 +4,14 @@ function addToCart(name, price) {
   if (cart[name]) {
     cart[name].qty++;
   } else {
-    cart[name] = { price: price, qty: 1 };
+    cart[name] = { price, qty: 1 };
   }
   updateCartCount();
 }
 
 function updateCartCount() {
   let count = 0;
-  for (let item in cart) {
-    count += cart[item].qty;
-  }
+  for (let item in cart) count += cart[item].qty;
   document.getElementById("cartCount").innerText = count;
 }
 
@@ -22,7 +20,6 @@ function openCart() {
     alert("Cart is empty");
     return;
   }
-
   document.getElementById("cartModal").style.display = "block";
   renderCart();
 }
@@ -31,31 +28,29 @@ function closeCart() {
   document.getElementById("cartModal").style.display = "none";
 }
 
-function changeQty(name, change) {
-  cart[name].qty += change;
-  if (cart[name].qty <= 0) {
-    delete cart[name];
-  }
+function changeQty(name, val) {
+  cart[name].qty += val;
+  if (cart[name].qty <= 0) delete cart[name];
   updateCartCount();
   renderCart();
 }
 
 function renderCart() {
   const cartItems = document.getElementById("cartItems");
-  const totalPriceEl = document.getElementById("totalPrice");
-
+  const totalPrice = document.getElementById("totalPrice");
   cartItems.innerHTML = "";
+
   let total = 0;
 
   for (let name in cart) {
-    const item = cart[name];
+    let item = cart[name];
     total += item.price * item.qty;
 
     cartItems.innerHTML += `
       <div class="cart-item">
-        <span>${name} (₹${item.price})</span>
+        <span>${name} ₹${item.price}</span>
         <div>
-          <button class="qty-btn" onclick="changeQty('${name}',-1)">−</button>
+          <button class="qty-btn" onclick="changeQty('${name}',-1)">-</button>
           ${item.qty}
           <button class="qty-btn" onclick="changeQty('${name}',1)">+</button>
         </div>
@@ -63,33 +58,40 @@ function renderCart() {
     `;
   }
 
-  totalPriceEl.innerText = total;
+  totalPrice.innerText = total;
 }
 
 function placeOrder() {
-  const name = document.getElementById("custName").value;
-  const phone = document.getElementById("custPhone").value;
-  const address = document.getElementById("custAddress").value;
+  let name = custName.value.trim();
+  let phone = custPhone.value.trim();
+  let address = custAddress.value.trim();
 
   if (!name || !phone || !address) {
-    alert("Please fill all details");
+    alert("Fill all details");
     return;
   }
 
-  let msg = "🍔 New Food Order\n\n";
-  msg += `Name: ${name}\nPhone: ${phone}\nAddress: ${address}\n\nItems:\n`;
-
+  let itemsText = "";
   let total = 0;
-  for (let item in cart) {
-    msg += `${item} x ${cart[item].qty} = ₹${cart[item].price * cart[item].qty}\n`;
-    total += cart[item].price * cart[item].qty;
+
+  for (let i in cart) {
+    itemsText += `${i} x ${cart[i].qty}\n`;
+    total += cart[i].price * cart[i].qty;
   }
 
-  msg += `\nTotal: ₹${total}`;
+  const orders = JSON.parse(localStorage.getItem("orders") || "[]");
+  orders.push({
+    name, phone, address,
+    items: cart,
+    total,
+    time: new Date().toLocaleString()
+  });
+  localStorage.setItem("orders", JSON.stringify(orders));
 
-  const whatsapp = "8392010029";
-  window.open(
-    `https://wa.me/91${whatsapp}?text=${encodeURIComponent(msg)}`,
-    "_blank"
-  );
-}
+  const msg = `New Order\nName:${name}\nPhone:${phone}\nAddress:${address}\n\n${itemsText}\nTotal ₹${total}`;
+  window.open(`https://wa.me/918392010029?text=${encodeURIComponent(msg)}`);
+
+  cart = {};
+  updateCartCount();
+  closeCart();
+      }
