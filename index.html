@@ -1,43 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Food Delivery App</title>
+  <meta charset="UTF-8">
+  <title>Food Order App</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <link rel="stylesheet" href="style.css" />
-  <link rel="manifest" href="manifest.json" />
+  <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
-  <header class="header">
-    <h1>Food Delivery</h1>
-    <input type="text" placeholder="Search food..." />
-  </header>
+<header>
+  <h2>🍔 Food Delivery</h2>
+  <button class="cart-btn" onclick="openOrderForm()">
+    🛒 Cart (<span id="cartCount">0</span>)
+  </button>
+</header>
 
-  <section class="items">
-    <div class="item">
-      <h3>Chicken Biryani</h3>
-      <button onclick="addToCart('Chicken Biryani')">Add to Cart</button>
-    </div>
-
-    <div class="item">
-      <h3>Paneer Butter Masala</h3>
-      <button onclick="addToCart('Paneer Butter Masala')">Add to Cart</button>
-    </div>
-
-    <div class="item">
-      <h3>Veg Fried Rice</h3>
-      <button onclick="addToCart('Veg Fried Rice')">Add to Cart</button>
-    </div>
-  </section>
-
-  <!-- Floating Cart Button -->
-  <div id="cartButton" onclick="openCart()">
-    🛒 <span id="cartCount">0</span>
+<section class="food-list">
+  <div class="food-card">
+    <h3>Burger</h3>
+    <button onclick="addToCart('Burger')">Add</button>
   </div>
 
-  <script src="script.js"></script>
+  <div class="food-card">
+    <h3>Pizza</h3>
+    <button onclick="addToCart('Pizza')">Add</button>
+  </div>
+
+  <div class="food-card">
+    <h3>Biryani</h3>
+    <button onclick="addToCart('Biryani')">Add</button>
+  </div>
+</section>
+
+<!-- ORDER FORM MODAL -->
+<div class="modal" id="orderModal">
+  <div class="modal-content">
+    <h3>📝 Order Details</h3>
+
+    <input type="text" id="custName" placeholder="Your Name">
+    <input type="tel" id="custPhone" placeholder="Phone Number">
+    <textarea id="custAddress" placeholder="Delivery Address"></textarea>
+
+    <button onclick="placeOrder()">Place Order via WhatsApp</button>
+    <button class="close-btn" onclick="closeOrderForm()">Cancel</button>
+  </div>
+</div>
+
+<script src="script.js"></script>
 </body>
 </html>
