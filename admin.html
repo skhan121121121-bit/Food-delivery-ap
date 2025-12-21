@@ -1,44 +1,38 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="UTF-8">
-  <title>Admin Panel</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="style.css">
+  <title>Admin</title>
+
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 </head>
 <body>
 
-<header>
-  <h2>👨‍💼 Admin Panel</h2>
-</header>
-
-<section class="food-list" id="orders"></section>
+<h2>Orders</h2>
+<div id="list"></div>
 
 <script>
-const orders = JSON.parse(localStorage.getItem("orders") || "[]");
-const container = document.getElementById("orders");
+const firebaseConfig = {
+  apiKey: "PASTE_HERE",
+  authDomain: "PASTE_HERE",
+  projectId: "PASTE_HERE"
+};
 
-if (orders.length === 0) {
-  container.innerHTML = "<p>No orders yet</p>";
-}
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
 
-orders.reverse().forEach((o, i) => {
-  let items = "";
-  for (let k in o.items) {
-    items += `<li>${k} x ${o.items[k].qty}</li>`;
-  }
-
-  container.innerHTML += `
-    <div class="food-card">
-      <h3>Order ${orders.length - i}</h3>
-      <p><b>Name:</b> ${o.name}</p>
-      <p><b>Phone:</b> ${o.phone}</p>
-      <p><b>Address:</b> ${o.address}</p>
-      <ul>${items}</ul>
-      <p><b>Total:</b> ₹${o.total}</p>
-      <small>${o.time}</small>
-    </div>
-  `;
+db.collection("orders").onSnapshot(snap=>{
+  list.innerHTML="";
+  snap.forEach(d=>{
+    let o=d.data();
+    list.innerHTML+=`
+      <div>
+        <b>${o.name}</b> ${o.phone}<br>
+        ${o.address}<br>
+        <small>${o.time}</small>
+        <hr>
+      </div>`;
+  });
 });
 </script>
 
