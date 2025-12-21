@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Panel</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+  <h2>👨‍💼 Admin Panel</h2>
+</header>
+
+<section class="food-list" id="orders"></section>
+
+<script>
+const orders = JSON.parse(localStorage.getItem("orders") || "[]");
+const container = document.getElementById("orders");
+
+if (orders.length === 0) {
+  container.innerHTML = "<p>No orders yet</p>";
+}
+
+orders.reverse().forEach((o, i) => {
+  let items = "";
+  for (let k in o.items) {
+    items += `<li>${k} x ${o.items[k].qty}</li>`;
+  }
+
+  container.innerHTML += `
+    <div class="food-card">
+      <h3>Order ${orders.length - i}</h3>
+      <p><b>Name:</b> ${o.name}</p>
+      <p><b>Phone:</b> ${o.phone}</p>
+      <p><b>Address:</b> ${o.address}</p>
+      <ul>${items}</ul>
+      <p><b>Total:</b> ₹${o.total}</p>
+      <small>${o.time}</small>
+    </div>
+  `;
+});
+</script>
+
+</body>
+</html>
