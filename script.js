@@ -1,97 +1,52 @@
+// 🔥 FIREBASE CONFIG (নিজেরটা বসান)
+const firebaseConfig = {
+  apiKey: "PASTE_HERE",
+  authDomain: "PASTE_HERE",
+  projectId: "PASTE_HERE"
+};
+
+// init firebase
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+
 let cart = {};
 
 function addToCart(name, price) {
-  if (cart[name]) {
-    cart[name].qty++;
-  } else {
-    cart[name] = { price, qty: 1 };
-  }
-  updateCartCount();
+  cart[name] = cart[name] ? {price, qty: cart[name].qty+1} : {price, qty:1};
+  update();
 }
 
-function updateCartCount() {
-  let count = 0;
-  for (let item in cart) count += cart[item].qty;
-  document.getElementById("cartCount").innerText = count;
-}
-
-function openCart() {
-  if (Object.keys(cart).length === 0) {
-    alert("Cart is empty");
-    return;
-  }
-  document.getElementById("cartModal").style.display = "block";
-  renderCart();
-}
-
-function closeCart() {
-  document.getElementById("cartModal").style.display = "none";
-}
-
-function changeQty(name, val) {
-  cart[name].qty += val;
-  if (cart[name].qty <= 0) delete cart[name];
-  updateCartCount();
-  renderCart();
-}
-
-function renderCart() {
-  const cartItems = document.getElementById("cartItems");
-  const totalPrice = document.getElementById("totalPrice");
+function update() {
+  let count = 0, total = 0;
   cartItems.innerHTML = "";
-
-  let total = 0;
-
-  for (let name in cart) {
-    let item = cart[name];
-    total += item.price * item.qty;
-
-    cartItems.innerHTML += `
-      <div class="cart-item">
-        <span>${name} ₹${item.price}</span>
-        <div>
-          <button class="qty-btn" onclick="changeQty('${name}',-1)">-</button>
-          ${item.qty}
-          <button class="qty-btn" onclick="changeQty('${name}',1)">+</button>
-        </div>
-      </div>
-    `;
+  for (let i in cart) {
+    count += cart[i].qty;
+    total += cart[i].price * cart[i].qty;
+    cartItems.innerHTML += `<div>${i} x ${cart[i].qty}</div>`;
   }
-
-  totalPrice.innerText = total;
+  cartCount.innerText = count;
+  total.innerText = total;
 }
 
-function placeOrder() {
-  let name = custName.value.trim();
-  let phone = custPhone.value.trim();
-  let address = custAddress.value.trim();
+function openCart(){ cartBox.style.display="block"; }
+function closeCart(){ cartBox.style.display="none"; }
 
-  if (!name || !phone || !address) {
-    alert("Fill all details");
+function placeOrder(){
+  if(!name.value || !phone.value || !address.value){
+    alert("Fill all");
     return;
   }
 
-  let itemsText = "";
-  let total = 0;
-
-  for (let i in cart) {
-    itemsText += `${i} x ${cart[i].qty}\n`;
-    total += cart[i].price * cart[i].qty;
-  }
-
-  const orders = JSON.parse(localStorage.getItem("orders") || "[]");
-  orders.push({
-    name, phone, address,
-    items: cart,
-    total,
+  db.collection("orders").add({
+    name: name.value,
+    phone: phone.value,
+    address: address.value,
+    cart,
     time: new Date().toLocaleString()
   });
-  localStorage.setItem("orders", JSON.stringify(orders));
 
-  const msg = `New Order\nName:${name}\nPhone:${phone}\nAddress:${address}\n\n${itemsText}\nTotal ₹${total}`;
-  window.open(`https://wa.me/918392010029?text=${encodeURIComponent(msg)}`);
-
+  alert("Order Sent");
   cart = {};
-  updateCartCount();
+  update();
   closeCart();
-      }
+}
