@@ -1,4 +1,20 @@
-// 🔥 Firebase config (নিজেরটা বসান)
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+const firebaseConfig = {
+  apiKey: "AIzaSyDTSqACN8xS9G3eJ8zOW7l-TlkaMKprm-M",
+  authDomain: "food-app-f255f.firebaseapp.com",
+  projectId: "food-app-f255f",
+  storageBucket: "food-app-f255f.firebasestorage.app",
+  messagingSenderId: "549990208622",
+  appId: "1:549990208622:web:7fbc7e9d5da6ea19b6c27f"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);// 🔥 Firebase config (নিজেরটা বসান)
 const firebaseConfig = {
   apiKey: "PASTE_HERE",
   authDomain: "PASTE_HERE",
