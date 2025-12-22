@@ -2,52 +2,53 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>Food Delivery</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Food App</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
   <link rel="stylesheet" href="style.css">
 
-  <!-- Firebase library -->
+  <!-- Firebase -->
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 </head>
+
 <body>
 
 <header>
-  <h2>🍔 Food Delivery</h2>
+  <h2>🍔 Food App</h2>
   <button onclick="openCart()">🛒 Cart (<span id="cartCount">0</span>)</button>
 </header>
 
-<div class="food">
-  <div>
-    <b>Burger</b> ₹120
+<section class="foods">
+  <div class="item">
+    <span>Burger ₹120</span>
     <button onclick="addToCart('Burger',120)">Add</button>
   </div>
-
-  <div>
-    <b>Pizza</b> ₹250
+  <div class="item">
+    <span>Pizza ₹250</span>
     <button onclick="addToCart('Pizza',250)">Add</button>
   </div>
-
-  <div>
-    <b>Biryani</b> ₹180
+  <div class="item">
+    <span>Biryani ₹180</span>
     <button onclick="addToCart('Biryani',180)">Add</button>
   </div>
-</div>
+</section>
 
-<div id="cartBox">
-  <h3>Cart</h3>
+<!-- CART -->
+<div id="cart">
+  <h3>Your Cart</h3>
+
   <div id="cartItems"></div>
-  <b>Total ₹<span id="total">0</span></b>
+
+  <p>Total: ₹<span id="total">0</span></p>
 
   <input id="name" placeholder="Name">
   <input id="phone" placeholder="Phone">
   <textarea id="address" placeholder="Address"></textarea>
 
-  <button onclick="placeOrder()">Order</button>
+  <button onclick="placeOrder()">Place Order</button>
   <button onclick="closeCart()">Close</button>
 </div>
-
-<a href="admin.html">Admin Panel</a>
 
 <script src="script.js"></script>
 </body>
