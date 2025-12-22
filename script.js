@@ -97,7 +97,7 @@ window.placeOrder = async function () {
     `Total: ₹${total}`;
 
   window.open(
-    `https://wa.me/919392010029?text=${message}`,
+    `https://wa.me/918392010029?text=${message}`,
     "_blank"
   );
 
