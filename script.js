@@ -1,4 +1,4 @@
-// 🔥 FIREBASE CONFIG (নিজেরটা বসান)
+// 🔥 Firebase config (নিজেরটা বসান)
 const firebaseConfig = {
   apiKey: "PASTE_HERE",
   authDomain: "PASTE_HERE",
@@ -9,65 +9,77 @@ firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
 let cart = {};
+let total = 0;
 
 function addToCart(name, price) {
-  cart[name]
-    ? cart[name].qty++
-    : cart[name] = { price: price, qty: 1 };
-  updateCart();
+  if (cart[name]) {
+    cart[name].qty++;
+  } else {
+    cart[name] = { price, qty: 1 };
+  }
+  render();
 }
 
-function updateCart() {
+function render() {
+  const cartItems = document.getElementById("cartItems");
+  const cartCount = document.getElementById("cartCount");
+  const totalSpan = document.getElementById("total");
+
+  cartItems.innerHTML = "";
+  total = 0;
   let count = 0;
-  let totalPrice = 0;
-  document.getElementById("cartItems").innerHTML = "";
 
   for (let item in cart) {
+    let sum = cart[item].price * cart[item].qty;
+    total += sum;
     count += cart[item].qty;
-    totalPrice += cart[item].price * cart[item].qty;
 
-    document.getElementById("cartItems").innerHTML += `
-      <div>${item} x ${cart[item].qty}</div>
-    `;
+    cartItems.innerHTML += `<div>${item} x ${cart[item].qty} = ₹${sum}</div>`;
   }
 
-  document.getElementById("cartCount").innerText = count;
-  document.getElementById("total").innerText = totalPrice;
+  cartCount.innerText = count;
+  totalSpan.innerText = total;
 }
 
 function openCart() {
-  document.getElementById("cartBox").style.display = "block";
+  document.getElementById("cart").style.display = "block";
 }
 
 function closeCart() {
-  document.getElementById("cartBox").style.display = "none";
+  document.getElementById("cart").style.display = "none";
 }
 
 function placeOrder() {
-  const custName = document.getElementById("name").value.trim();
-  const custPhone = document.getElementById("phone").value.trim();
-  const custAddress = document.getElementById("address").value.trim();
+  const name = document.getElementById("name").value.trim();
+  const phone = document.getElementById("phone").value.trim();
+  const address = document.getElementById("address").value.trim();
 
-  if (custName === "" || custPhone === "" || custAddress === "") {
+  if (!name || !phone || !address) {
     alert("Fill all");
     return;
   }
 
+  if (Object.keys(cart).length === 0) {
+    alert("Cart empty");
+    return;
+  }
+
   db.collection("orders").add({
-    name: custName,
-    phone: custPhone,
-    address: custAddress,
-    items: cart,
-    time: new Date().toLocaleString()
+    name,
+    phone,
+    address,
+    cart,
+    total,
+    time: new Date().toString()
   });
 
-  alert("Order placed successfully");
+  alert("Order placed");
 
   cart = {};
-  updateCart();
+  render();
   closeCart();
 
   document.getElementById("name").value = "";
   document.getElementById("phone").value = "";
   document.getElementById("address").value = "";
-    }
+}
