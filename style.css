@@ -1,5 +1,5 @@
 body {
-  font-family: Arial;
+  font-family: Arial, sans-serif;
   margin: 0;
 }
 
@@ -8,28 +8,61 @@ header {
   padding: 10px;
   display: flex;
   justify-content: space-between;
+  align-items: center;
+}
+
+#cartBtn {
+  background: black;
+  color: white;
+  border: none;
+  padding: 6px 10px;
+  border-radius: 5px;
 }
 
 .foods {
-  padding: 10px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 15px;
+  padding: 15px;
 }
 
-.item {
-  background: #eee;
-  margin: 10px 0;
+.food {
+  border: 1px solid #ccc;
   padding: 10px;
-  display: flex;
-  justify-content: space-between;
+  text-align: center;
 }
 
-#cart {
+.food button {
+  background: green;
+  color: white;
+  border: none;
+  padding: 5px;
+}
+
+.cart {
+  position: fixed;
+  right: 10px;
+  bottom: 10px;
+  width: 90%;
+  max-width: 300px;
+  background: white;
+  border: 2px solid black;
+  padding: 10px;
   display: none;
-  padding: 10px;
-  border-top: 2px solid black;
 }
 
-input, textarea {
+.cart input,
+.cart textarea {
   width: 100%;
   margin: 5px 0;
-  padding: 6px;
+}
+
+.cart button {
+  width: 100%;
+  margin-top: 5px;
+}
+
+.close {
+  background: red;
+  color: white;
 }
