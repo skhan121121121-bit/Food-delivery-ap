@@ -1,20 +1,20 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-// 🔥 Firebase CONFIG (নিজেরটা বসাবেন)
+/* 🔥 YOUR FIREBASE CONFIG (CONNECTED) */
 const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_PROJECT.firebaseapp.com",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_PROJECT.appspot.com",
-  messagingSenderId: "XXXX",
-  appId: "XXXX"
+  apiKey: "AIzaSyDTSqACN8xS9G3eJ8zOW7l-TlkaMKprm-M",
+  authDomain: "food-app-f255f.firebaseapp.com",
+  projectId: "food-app-f255f",
+  storageBucket: "food-app-f255f.firebasestorage.app",
+  messagingSenderId: "549990208622",
+  appId: "1:549990208622:web:7fbc7e9d5da6ea19b6c27f"
 };
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-// FOOD DATA
+/* 🍔 FOOD LIST */
 const foods = [
   { id: 1, name: "Pizza", price: 200 },
   { id: 2, name: "Burger", price: 120 },
@@ -23,73 +23,86 @@ const foods = [
 
 let cart = [];
 
-// LOAD FOOD
+/* LOAD FOOD */
 const foodList = document.getElementById("foodList");
-foods.forEach(f => {
+foodList.innerHTML = "";
+foods.forEach(food => {
   foodList.innerHTML += `
     <div class="food">
-      <h4>${f.name}</h4>
-      <p>₹${f.price}</p>
-      <button onclick="addToCart(${f.id})">Add</button>
-    </div>`;
+      <h4>${food.name}</h4>
+      <p>₹${food.price}</p>
+      <button onclick="addToCart(${food.id})">Add</button>
+    </div>
+  `;
 });
 
-// ADD CART
-window.addToCart = function(id) {
+/* ADD TO CART */
+window.addToCart = function (id) {
   const item = foods.find(f => f.id === id);
   cart.push(item);
   updateCart();
 };
 
-// UPDATE CART
+/* UPDATE CART */
 function updateCart() {
   document.getElementById("cartCount").innerText = cart.length;
-  const list = document.getElementById("cartItems");
-  list.innerHTML = "";
+  const cartItems = document.getElementById("cartItems");
+  cartItems.innerHTML = "";
 
   let total = 0;
-  cart.forEach(i => {
-    total += i.price;
-    list.innerHTML += `<li>${i.name} - ₹${i.price}</li>`;
+  cart.forEach(item => {
+    total += item.price;
+    cartItems.innerHTML += `<li>${item.name} - ₹${item.price}</li>`;
   });
 
   document.getElementById("total").innerText = total;
 }
 
-// TOGGLE CART
+/* TOGGLE CART */
 window.toggleCart = function () {
-  const c = document.getElementById("cart");
-  c.style.display = c.style.display === "block" ? "none" : "block";
+  const cartBox = document.getElementById("cart");
+  cartBox.style.display =
+    cartBox.style.display === "block" ? "none" : "block";
 };
 
-// PLACE ORDER
+/* PLACE ORDER */
 window.placeOrder = async function () {
   const name = document.getElementById("name").value.trim();
   const phone = document.getElementById("phone").value.trim();
   const address = document.getElementById("address").value.trim();
 
   if (!name || !phone || !address || cart.length === 0) {
-    alert("Fill all & add item");
+    alert("Fill all details & add item");
     return;
   }
 
-  let total = cart.reduce((s, i) => s + i.price, 0);
+  let total = cart.reduce((sum, item) => sum + item.price, 0);
 
-  // SAVE TO FIREBASE
+  /* SAVE TO FIREBASE */
   await addDoc(collection(db, "orders"), {
-    name,
-    phone,
-    address,
+    name: name,
+    phone: phone,
+    address: address,
     items: cart,
-    total,
-    time: new Date()
+    total: total,
+    createdAt: new Date()
   });
 
-  // WHATSAPP
-  let msg = `Order:%0AName:${name}%0APhone:${phone}%0AAddress:${address}%0ATotal:₹${total}`;
-  window.open(`https://wa.me/919392010029?text=${msg}`, "_blank");
+  /* WHATSAPP ORDER */
+  let message =
+    `Order Received:%0A` +
+    `Name: ${name}%0A` +
+    `Phone: ${phone}%0A` +
+    `Address: ${address}%0A` +
+    `Total: ₹${total}`;
 
-  alert("Order Placed");
+  window.open(
+    `https://wa.me/919392010029?text=${message}`,
+    "_blank"
+  );
+
+  alert("Order placed successfully!");
+
   cart = [];
   updateCart();
   toggleCart();
