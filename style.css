@@ -1,6 +1,35 @@
-body { font-family: Arial; margin:0; padding:10px; }
-header { display:flex; justify-content:space-between; background:#ff6a00; color:#fff; padding:10px; }
-.food div { background:#eee; margin:10px 0; padding:10px; display:flex; justify-content:space-between; }
-#cartBox { display:none; background:#fff; padding:10px; border:1px solid #000; }
-button { padding:5px 10px; }
-input, textarea { width:100%; margin:5px 0; padding:5px; }
+body {
+  font-family: Arial;
+  margin: 0;
+}
+
+header {
+  background: orange;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.foods {
+  padding: 10px;
+}
+
+.item {
+  background: #eee;
+  margin: 10px 0;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+}
+
+#cart {
+  display: none;
+  padding: 10px;
+  border-top: 2px solid black;
+}
+
+input, textarea {
+  width: 100%;
+  margin: 5px 0;
+  padding: 6px;
+}
