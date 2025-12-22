@@ -1,101 +1,96 @@
-// Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-// Your web app's Firebase configuration
+// 🔥 Firebase CONFIG (নিজেরটা বসাবেন)
 const firebaseConfig = {
-  apiKey: "AIzaSyDTSqACN8xS9G3eJ8zOW7l-TlkaMKprm-M",
-  authDomain: "food-app-f255f.firebaseapp.com",
-  projectId: "food-app-f255f",
-  storageBucket: "food-app-f255f.firebasestorage.app",
-  messagingSenderId: "549990208622",
-  appId: "1:549990208622:web:7fbc7e9d5da6ea19b6c27f"
+  apiKey: "YOUR_API_KEY",
+  authDomain: "YOUR_PROJECT.firebaseapp.com",
+  projectId: "YOUR_PROJECT_ID",
+  storageBucket: "YOUR_PROJECT.appspot.com",
+  messagingSenderId: "XXXX",
+  appId: "XXXX"
 };
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);// 🔥 Firebase config (নিজেরটা বসান)
-const firebaseConfig = {
-  apiKey: "PASTE_HERE",
-  authDomain: "PASTE_HERE",
-  projectId: "PASTE_HERE"
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+// FOOD DATA
+const foods = [
+  { id: 1, name: "Pizza", price: 200 },
+  { id: 2, name: "Burger", price: 120 },
+  { id: 3, name: "Pasta", price: 150 }
+];
+
+let cart = [];
+
+// LOAD FOOD
+const foodList = document.getElementById("foodList");
+foods.forEach(f => {
+  foodList.innerHTML += `
+    <div class="food">
+      <h4>${f.name}</h4>
+      <p>₹${f.price}</p>
+      <button onclick="addToCart(${f.id})">Add</button>
+    </div>`;
+});
+
+// ADD CART
+window.addToCart = function(id) {
+  const item = foods.find(f => f.id === id);
+  cart.push(item);
+  updateCart();
 };
 
-firebase.initializeApp(firebaseConfig);
-const db = firebase.firestore();
+// UPDATE CART
+function updateCart() {
+  document.getElementById("cartCount").innerText = cart.length;
+  const list = document.getElementById("cartItems");
+  list.innerHTML = "";
 
-let cart = {};
-let total = 0;
+  let total = 0;
+  cart.forEach(i => {
+    total += i.price;
+    list.innerHTML += `<li>${i.name} - ₹${i.price}</li>`;
+  });
 
-function addToCart(name, price) {
-  if (cart[name]) {
-    cart[name].qty++;
-  } else {
-    cart[name] = { price, qty: 1 };
-  }
-  render();
+  document.getElementById("total").innerText = total;
 }
 
-function render() {
-  const cartItems = document.getElementById("cartItems");
-  const cartCount = document.getElementById("cartCount");
-  const totalSpan = document.getElementById("total");
+// TOGGLE CART
+window.toggleCart = function () {
+  const c = document.getElementById("cart");
+  c.style.display = c.style.display === "block" ? "none" : "block";
+};
 
-  cartItems.innerHTML = "";
-  total = 0;
-  let count = 0;
-
-  for (let item in cart) {
-    let sum = cart[item].price * cart[item].qty;
-    total += sum;
-    count += cart[item].qty;
-
-    cartItems.innerHTML += `<div>${item} x ${cart[item].qty} = ₹${sum}</div>`;
-  }
-
-  cartCount.innerText = count;
-  totalSpan.innerText = total;
-}
-
-function openCart() {
-  document.getElementById("cart").style.display = "block";
-}
-
-function closeCart() {
-  document.getElementById("cart").style.display = "none";
-}
-
-function placeOrder() {
+// PLACE ORDER
+window.placeOrder = async function () {
   const name = document.getElementById("name").value.trim();
   const phone = document.getElementById("phone").value.trim();
   const address = document.getElementById("address").value.trim();
 
-  if (!name || !phone || !address) {
-    alert("Fill all");
+  if (!name || !phone || !address || cart.length === 0) {
+    alert("Fill all & add item");
     return;
   }
 
-  if (Object.keys(cart).length === 0) {
-    alert("Cart empty");
-    return;
-  }
+  let total = cart.reduce((s, i) => s + i.price, 0);
 
-  db.collection("orders").add({
+  // SAVE TO FIREBASE
+  await addDoc(collection(db, "orders"), {
     name,
     phone,
     address,
-    cart,
+    items: cart,
     total,
-    time: new Date().toString()
+    time: new Date()
   });
 
-  alert("Order placed");
+  // WHATSAPP
+  let msg = `Order:%0AName:${name}%0APhone:${phone}%0AAddress:${address}%0ATotal:₹${total}`;
+  window.open(`https://wa.me/919392010029?text=${msg}`, "_blank");
 
-  cart = {};
-  render();
-  closeCart();
-
-  document.getElementById("name").value = "";
-  document.getElementById("phone").value = "";
-  document.getElementById("address").value = "";
-}
+  alert("Order Placed");
+  cart = [];
+  updateCart();
+  toggleCart();
+};
