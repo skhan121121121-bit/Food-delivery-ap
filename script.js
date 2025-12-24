@@ -1,4 +1,5 @@
-const SHEET_URL = "https://script.google.com/macros/s/AKfycbyHv1db9owv6_DOV8ZHbLuEOePQkaZK9u--7zesan4HvylyRi7oncHW4XOwioTiLHWJRw/exec";
+// 👉👉 এখানেই Web App URL বসানো আছে
+const SHEET_URL = "https://script.google.com/macros/s/AKfycbzRTA4dP-v_Owyj3hSrFATInKNQH4OSmbBv6c7XoF-HaR8OdA_396mPpmly1PXWCwX8yA/exec";
 const WHATSAPP = "918392010029";
 
 let cart = [];
@@ -33,16 +34,14 @@ function placeOrder() {
     total: total
   };
 
-  // Google Sheet
+  // 👉 Google Sheet এ পাঠানো
   fetch(SHEET_URL, {
     method: "POST",
-    body: JSON.stringify(data)
-  })
-  .then(r => r.text())
-  .then(() => alert("Order Google Sheet এ গেছে ✅"))
-  .catch(() => alert("Sheet error ❌"));
+    body: JSON.stringify(data),
+    mode: "no-cors"
+  });
 
-  // WhatsApp
+  // 👉 WhatsApp
   const msg = encodeURIComponent(
     "🍔 New Order\n\n" +
     "Name: " + name +
@@ -51,7 +50,6 @@ function placeOrder() {
     "\nItems: " + cart.join(", ") +
     "\nTotal: ₹" + total
   );
-
   window.open("https://wa.me/" + WHATSAPP + "?text=" + msg);
 
   // Reset
