@@ -1,17 +1,18 @@
 let cart = [];
 let total = 0;
 
+// Add item to cart
 function addItem(name, price) {
   cart.push(name);
   total += price;
   renderCart();
 }
 
+// Render cart and update WhatsApp link
 function renderCart() {
   document.getElementById("cart").innerText = cart.join(", ");
   document.getElementById("total").innerText = total;
 
-  // WhatsApp live link update
   const msg = encodeURIComponent(
     "🛒 New Order\n\nItems: " + cart.join(", ") +
     "\nTotal: ₹" + total
@@ -20,6 +21,7 @@ function renderCart() {
     "https://wa.me/918392010029?text=" + msg;
 }
 
+// Place order → Google Sheet + WhatsApp
 function placeOrder() {
   const name = document.getElementById("name").value.trim();
   const phone = document.getElementById("phone").value.trim();
@@ -38,15 +40,16 @@ function placeOrder() {
     total
   };
 
-  // Send to Google Sheet
-  fetch("https://script.google.com/macros/s/AKfycbyFktQ95osnGPrpQs9DDU5RU7n7zttZF2TT_f3V0noAI1vSdluuVU3aAHK3tTfxYIKW/exec", {
+  // Send data to Google Sheet
+  fetch("https://script.google.com/macros/s/AKfycbxRaTZmbGoJiZ1RM_VvwQ46XaZE7tr_YrUR1mFyd_qfYn3UMSDN3I0FxPCgzejYEfBL/exec", {
     method: "POST",
-    mode: "no-cors",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data)
-  });
+  })
+  .then(() => console.log("Order sent to Google Sheet"))
+  .catch(err => console.log("Error:", err));
 
-  // WhatsApp order open
+  // WhatsApp message
   const waMsg = encodeURIComponent(
     "🍔 *New Food Order*\n\n" +
     "Name: " + name +
@@ -57,7 +60,7 @@ function placeOrder() {
   );
   window.open("https://wa.me/918392010029?text=" + waMsg, "_blank");
 
-  // Reset cart
+  // Reset cart and form
   cart = [];
   total = 0;
   renderCart();
