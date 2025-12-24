@@ -2,46 +2,46 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Food Delivery App</title>
+  <title>Food Order App</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <h2>🍔 Food Menu</h2>
+<h2>🍔 Food Menu</h2>
 
-  <div class="menu">
-    <div class="item">
-      <h3>Burger</h3>
-      <p>₹100</p>
-      <button onclick="addItem('Burger',100)">Add</button>
-    </div>
-
-    <div class="item">
-      <h3>Pizza</h3>
-      <p>₹200</p>
-      <button onclick="addItem('Pizza',200)">Add</button>
-    </div>
-
-    <div class="item">
-      <h3>Biryani</h3>
-      <p>₹150</p>
-      <button onclick="addItem('Biryani',150)">Add</button>
-    </div>
+<div class="menu">
+  <div class="item">
+    <h3>Burger</h3>
+    <p>₹100</p>
+    <button onclick="addItem('Burger',100)">Add</button>
   </div>
 
-  <h2>🛒 Cart</h2>
-  <p id="cart">No items</p>
-  <p>Total: ₹<span id="total">0</span></p>
+  <div class="item">
+    <h3>Pizza</h3>
+    <p>₹200</p>
+    <button onclick="addItem('Pizza',200)">Add</button>
+  </div>
 
-  <h2>📦 Delivery Details</h2>
+  <div class="item">
+    <h3>Biryani</h3>
+    <p>₹150</p>
+    <button onclick="addItem('Biryani',150)">Add</button>
+  </div>
+</div>
 
-  <input id="name" placeholder="Name">
-  <input id="phone" placeholder="Phone">
-  <input id="address" placeholder="Address">
+<h2>🛒 Cart</h2>
+<p id="cart">No items</p>
+<p>Total: ₹<span id="total">0</span></p>
 
-  <button class="order" onclick="placeOrder()">Place Order</button>
+<h2>📦 Delivery Details</h2>
 
-  <script src="script.js"></script>
+<input id="name" placeholder="Name">
+<input id="phone" placeholder="Phone">
+<input id="address" placeholder="Address">
+
+<button class="order" onclick="placeOrder()">Place Order</button>
+
+<script src="script.js"></script>
 </body>
 </html>
