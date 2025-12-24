@@ -1,70 +1,63 @@
+const SHEET_URL = "https://script.google.com/macros/s/AKfycbyHv1db9owv6_DOV8ZHbLuEOePQkaZK9u--7zesan4HvylyRi7oncHW4XOwioTiLHWJRw/exec";
+const WHATSAPP = "918392010029";
+
 let cart = [];
 let total = 0;
 
-// Add item to cart
 function addItem(name, price) {
   cart.push(name);
   total += price;
-  renderCart();
+  updateCart();
 }
 
-// Render cart and update WhatsApp link
-function renderCart() {
-  document.getElementById("cart").innerText = cart.join(", ");
+function updateCart() {
+  document.getElementById("cart").innerText = cart.join(", ") || "No items";
   document.getElementById("total").innerText = total;
-
-  const msg = encodeURIComponent(
-    "🛒 New Order\n\nItems: " + cart.join(", ") +
-    "\nTotal: ₹" + total
-  );
-  document.getElementById("waBtn").href =
-    "https://wa.me/918392010029?text=" + msg;
 }
 
-// Place order → Google Sheet + WhatsApp
 function placeOrder() {
   const name = document.getElementById("name").value.trim();
   const phone = document.getElementById("phone").value.trim();
   const address = document.getElementById("address").value.trim();
 
   if (!name || !phone || !address || cart.length === 0) {
-    alert("সব ফিল্ড পূরণ করুন");
+    alert("সব তথ্য পূরণ করুন");
     return;
   }
 
   const data = {
-    name,
-    phone,
-    address,
+    name: name,
+    phone: phone,
+    address: address,
     items: cart.join(", "),
-    total
+    total: total
   };
 
-  // Send data to Google Sheet
-  fetch("https://script.google.com/macros/s/AKfycbxRaTZmbGoJiZ1RM_VvwQ46XaZE7tr_YrUR1mFyd_qfYn3UMSDN3I0FxPCgzejYEfBL/exec", {
+  // Google Sheet
+  fetch(SHEET_URL, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data)
   })
-  .then(() => console.log("Order sent to Google Sheet"))
-  .catch(err => console.log("Error:", err));
+  .then(r => r.text())
+  .then(() => alert("Order Google Sheet এ গেছে ✅"))
+  .catch(() => alert("Sheet error ❌"));
 
-  // WhatsApp message
-  const waMsg = encodeURIComponent(
-    "🍔 *New Food Order*\n\n" +
+  // WhatsApp
+  const msg = encodeURIComponent(
+    "🍔 New Order\n\n" +
     "Name: " + name +
     "\nPhone: " + phone +
     "\nAddress: " + address +
-    "\n\nItems: " + cart.join(", ") +
+    "\nItems: " + cart.join(", ") +
     "\nTotal: ₹" + total
   );
-  window.open("https://wa.me/918392010029?text=" + waMsg, "_blank");
 
-  // Reset cart and form
+  window.open("https://wa.me/" + WHATSAPP + "?text=" + msg);
+
+  // Reset
   cart = [];
   total = 0;
-  renderCart();
-
+  updateCart();
   document.getElementById("name").value = "";
   document.getElementById("phone").value = "";
   document.getElementById("address").value = "";
