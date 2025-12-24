@@ -1,36 +1,43 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8" />
-  <title>Food Order App</title>
+  <meta charset="UTF-8">
+  <title>Simple Food Order</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <link rel="manifest" href="manifest.json">
-  <link rel="stylesheet" href="style.css">
+  <style>
+    body { font-family: Arial; padding: 10px; }
+    .item { border: 1px solid #ccc; margin: 10px 0; padding: 10px; }
+    button { padding: 5px 10px; }
+    input, textarea { width: 100%; margin: 5px 0; padding: 6px; }
+  </style>
 </head>
+
 <body>
 
-<header>
-  <h2>🍔 Food App</h2>
-  <button id="cartBtn" onclick="toggleCart()">🛒 <span id="cartCount">0</span></button>
-</header>
+<h2>🍔 Food Order App</h2>
 
-<section class="foods" id="foodList"></section>
-
-<!-- CART -->
-<div class="cart" id="cart">
-  <h3>Your Cart</h3>
-  <ul id="cartItems"></ul>
-  <p>Total: ₹<span id="total">0</span></p>
-
-  <input id="name" placeholder="Name">
-  <input id="phone" placeholder="Phone">
-  <textarea id="address" placeholder="Address"></textarea>
-
-  <button onclick="placeOrder()">Place Order</button>
-  <button class="close" onclick="toggleCart()">Close</button>
+<div class="item">
+  Burger – ₹120
+  <button onclick="addItem('Burger',120)">Add</button>
 </div>
 
-<script type="module" src="script.js"></script>
+<div class="item">
+  Pizza – ₹200
+  <button onclick="addItem('Pizza',200)">Add</button>
+</div>
+
+<h3>🛒 Cart</h3>
+<div id="cart"></div>
+<p>Total: ₹<span id="total">0</span></p>
+
+<h3>Customer Details</h3>
+<input id="name" placeholder="Name">
+<input id="phone" placeholder="Phone">
+<textarea id="address" placeholder="Address"></textarea>
+
+<button onclick="placeOrder()">Place Order</button>
+
+<script src="script.js"></script>
 </body>
 </html>
