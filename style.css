@@ -1,11 +1,7 @@
 body {
   font-family: Arial, sans-serif;
   padding: 15px;
-  background: #f7f7f7;
-}
-
-h2 {
-  margin-top: 20px;
+  background: #f2f2f2;
 }
 
 .menu {
@@ -29,7 +25,6 @@ button {
   background: green;
   color: white;
   border-radius: 4px;
-  cursor: pointer;
 }
 
 .order {
