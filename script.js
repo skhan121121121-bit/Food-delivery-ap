@@ -11,12 +11,11 @@ function renderCart() {
   document.getElementById("cart").innerText = cart.join(", ");
   document.getElementById("total").innerText = total;
 
-  // WhatsApp live update
+  // WhatsApp live link update
   const msg = encodeURIComponent(
     "🛒 New Order\n\nItems: " + cart.join(", ") +
     "\nTotal: ₹" + total
   );
-
   document.getElementById("waBtn").href =
     "https://wa.me/918392010029?text=" + msg;
 }
@@ -36,19 +35,18 @@ function placeOrder() {
     phone,
     address,
     items: cart.join(", "),
-    total,
-    time: new Date().toLocaleString()
+    total
   };
 
   // Send to Google Sheet
-  fetch("https://script.google.com/macros/s/AKfycbzdCnWnymyX7MaX9KmVxlys01qFt01R_ywYSrGuprn9rBxQud67mNsNLabkxAp5Y-iLEA/exec", {
+  fetch("https://script.google.com/macros/s/AKfycbyFktQ95osnGPrpQs9DDU5RU7n7zttZF2TT_f3V0noAI1vSdluuVU3aAHK3tTfxYIKW/exec", {
     method: "POST",
     mode: "no-cors",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data)
   });
 
-  // Open WhatsApp with full order
+  // WhatsApp order open
   const waMsg = encodeURIComponent(
     "🍔 *New Food Order*\n\n" +
     "Name: " + name +
@@ -57,13 +55,9 @@ function placeOrder() {
     "\n\nItems: " + cart.join(", ") +
     "\nTotal: ₹" + total
   );
+  window.open("https://wa.me/918392010029?text=" + waMsg, "_blank");
 
-  window.open(
-    "https://wa.me/918392010029?text=" + waMsg,
-    "_blank"
-  );
-
-  // Reset
+  // Reset cart
   cart = [];
   total = 0;
   renderCart();
