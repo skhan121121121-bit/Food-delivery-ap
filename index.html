@@ -1,59 +1,47 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Food Order App</title>
+  <title>Food Delivery App</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <style>
-    body { font-family: Arial; padding: 10px; }
-    .item { border: 1px solid #ccc; margin: 10px 0; padding: 10px; }
-    button { padding: 8px 12px; margin-top: 5px; }
-    input, textarea { width: 100%; margin: 5px 0; padding: 6px; }
-
-    /* WhatsApp Floating Button */
-    .whatsapp {
-      position: fixed;
-      right: 15px;
-      bottom: 15px;
-      background: #25D366;
-      color: white;
-      padding: 15px;
-      border-radius: 50%;
-      font-size: 18px;
-      text-decoration: none;
-    }
-  </style>
+  <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
-<h2>🍔 Food Order App</h2>
+  <h2>🍔 Food Menu</h2>
 
-<div class="item">
-  Burger – ₹120
-  <button onclick="addItem('Burger',120)">Add</button>
-</div>
+  <div class="menu">
+    <div class="item">
+      <h3>Burger</h3>
+      <p>₹100</p>
+      <button onclick="addItem('Burger',100)">Add</button>
+    </div>
 
-<div class="item">
-  Pizza – ₹200
-  <button onclick="addItem('Pizza',200)">Add</button>
-</div>
+    <div class="item">
+      <h3>Pizza</h3>
+      <p>₹200</p>
+      <button onclick="addItem('Pizza',200)">Add</button>
+    </div>
 
-<h3>🛒 Cart</h3>
-<div id="cart"></div>
-<p>Total: ₹<span id="total">0</span></p>
+    <div class="item">
+      <h3>Biryani</h3>
+      <p>₹150</p>
+      <button onclick="addItem('Biryani',150)">Add</button>
+    </div>
+  </div>
 
-<h3>Customer Details</h3>
-<input id="name" placeholder="Name">
-<input id="phone" placeholder="Phone">
-<textarea id="address" placeholder="Address"></textarea>
+  <h2>🛒 Cart</h2>
+  <p id="cart">No items</p>
+  <p>Total: ₹<span id="total">0</span></p>
 
-<button onclick="placeOrder()">Place Order</button>
+  <h2>📦 Delivery Details</h2>
 
-<!-- WhatsApp Floating Icon -->
-<a id="waBtn" class="whatsapp" target="_blank">💬</a>
+  <input id="name" placeholder="Name">
+  <input id="phone" placeholder="Phone">
+  <input id="address" placeholder="Address">
 
-<script src="script.js"></script>
+  <button class="order" onclick="placeOrder()">Place Order</button>
+
+  <script src="script.js"></script>
 </body>
 </html>
