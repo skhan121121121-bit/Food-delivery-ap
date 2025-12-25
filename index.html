@@ -2,43 +2,27 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Food Order App</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Food Order</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<h2>🍔 Food Menu</h2>
+<h2>Food Order</h2>
 
-<div class="menu">
-  <div class="item">
-    <h3>Burger</h3>
-    <p>₹100</p>
-    <button onclick="addItem('Burger',100)">Add</button>
-  </div>
-
-  <div class="item">
-    <h3>Pizza</h3>
-    <p>₹200</p>
-    <button onclick="addItem('Pizza',200)">Add</button>
-  </div>
-
-  <div class="item">
-    <h3>Biryani</h3>
-    <p>₹150</p>
-    <button onclick="addItem('Biryani',150)">Add</button>
-  </div>
+<div class="items">
+  <button onclick="addItem('Chicken Roll', 60)">Chicken Roll ₹60</button>
+  <button onclick="addItem('Egg Roll', 40)">Egg Roll ₹40</button>
+  <button onclick="addItem('Veg Roll', 30)">Veg Roll ₹30</button>
 </div>
 
-<h2>🛒 Cart</h2>
-<p id="cart">No items</p>
+<h3>Cart</h3>
+<ul id="cart"></ul>
 <p>Total: ₹<span id="total">0</span></p>
 
-<h2>📦 Delivery Details</h2>
-
-<input id="name" placeholder="Name">
-<input id="phone" placeholder="Phone">
-<input id="address" placeholder="Address">
+<h3>Customer Details</h3>
+<input type="text" id="name" placeholder="Name">
+<input type="tel" id="phone" placeholder="Phone">
+<textarea id="address" placeholder="Address"></textarea>
 
 <button class="order" onclick="placeOrder()">Place Order</button>
 
