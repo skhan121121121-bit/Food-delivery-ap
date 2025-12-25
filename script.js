@@ -1,18 +1,22 @@
-// 👉👉 এখানেই Web App URL বসানো আছে
-const SHEET_URL = "https://script.google.com/macros/s/AKfycbzRTA4dP-v_Owyj3hSrFATInKNQH4OSmbBv6c7XoF-HaR8OdA_396mPpmly1PXWCwX8yA/exec";
-const WHATSAPP = "918392010029";
+const SHEET_URL = "https://script.google.com/macros/s/AKfycbzw5mXzNuQOm6UKEWj6347Pl0JzcJfnk79A0lm--b_Pfe4o9QaXRKPh_sRAVm2EKjD4xA/exec";
 
 let cart = [];
 let total = 0;
 
 function addItem(name, price) {
-  cart.push(name);
+  cart.push(name + " ₹" + price);
   total += price;
-  updateCart();
+  renderCart();
 }
 
-function updateCart() {
-  document.getElementById("cart").innerText = cart.join(", ") || "No items";
+function renderCart() {
+  const cartEl = document.getElementById("cart");
+  cartEl.innerHTML = "";
+  cart.forEach(item => {
+    const li = document.createElement("li");
+    li.innerText = item;
+    cartEl.appendChild(li);
+  });
   document.getElementById("total").innerText = total;
 }
 
@@ -22,7 +26,7 @@ function placeOrder() {
   const address = document.getElementById("address").value.trim();
 
   if (!name || !phone || !address || cart.length === 0) {
-    alert("সব তথ্য পূরণ করুন");
+    alert("Fill all details & add items");
     return;
   }
 
@@ -34,29 +38,26 @@ function placeOrder() {
     total: total
   };
 
-  // 👉 Google Sheet এ পাঠানো
   fetch(SHEET_URL, {
     method: "POST",
-    body: JSON.stringify(data),
-    mode: "no-cors"
+    mode: "no-cors",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data)
   });
 
-  // 👉 WhatsApp
-  const msg = encodeURIComponent(
-    "🍔 New Order\n\n" +
-    "Name: " + name +
-    "\nPhone: " + phone +
-    "\nAddress: " + address +
-    "\nItems: " + cart.join(", ") +
-    "\nTotal: ₹" + total
-  );
-  window.open("https://wa.me/" + WHATSAPP + "?text=" + msg);
+  // WhatsApp message
+  const msg =
+    "New Order%0A" +
+    "Name: " + name + "%0A" +
+    "Phone: " + phone + "%0A" +
+    "Address: " + address + "%0A" +
+    "Items: " + cart.join(", ") + "%0A" +
+    "Total: ₹" + total;
 
-  // Reset
+  window.open("https://wa.me/91" + phone + "?text=" + msg, "_blank");
+
+  alert("Order Sent!");
   cart = [];
   total = 0;
-  updateCart();
-  document.getElementById("name").value = "";
-  document.getElementById("phone").value = "";
-  document.getElementById("address").value = "";
+  renderCart();
 }
