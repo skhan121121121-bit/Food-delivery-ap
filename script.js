@@ -1,4 +1,5 @@
-const SHEET_URL = "https://script.google.com/macros/s/AKfycbzw5mXzNuQOm6UKEWj6347Pl0JzcJfnk79A0lm--b_Pfe4o9QaXRKPh_sRAVm2EKjD4xA/exec";
+const WEB_APP_URL =
+  "https://script.google.com/macros/s/AKfycbyBhTAHWRt2D2YcFmWI0qiAvMZju1qViZE-x_Evi3nMcDdfTR5QAXlagsCjZJIPWHg7ZQ/exec";
 
 let cart = [];
 let total = 0;
@@ -30,7 +31,7 @@ function placeOrder() {
     return;
   }
 
-  const data = {
+  const orderData = {
     name: name,
     phone: phone,
     address: address,
@@ -38,14 +39,14 @@ function placeOrder() {
     total: total
   };
 
-  fetch(SHEET_URL, {
+  fetch(WEB_APP_URL, {
     method: "POST",
     mode: "no-cors",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(data)
+    body: JSON.stringify(orderData)
   });
 
-  // WhatsApp message
+  // WhatsApp Message
   const msg =
     "New Order%0A" +
     "Name: " + name + "%0A" +
@@ -56,8 +57,12 @@ function placeOrder() {
 
   window.open("https://wa.me/91" + phone + "?text=" + msg, "_blank");
 
-  alert("Order Sent!");
+  alert("Order Sent Successfully!");
+
   cart = [];
   total = 0;
   renderCart();
+  document.getElementById("name").value = "";
+  document.getElementById("phone").value = "";
+  document.getElementById("address").value = "";
 }
