@@ -1,28 +1,48 @@
 body {
   font-family: Arial, sans-serif;
   padding: 15px;
+  background: #f5f5f5;
 }
 
-button {
-  padding: 10px;
-  margin: 5px;
+h2, h3 {
+  text-align: center;
 }
 
 .items button {
-  display: block;
   width: 100%;
+  padding: 12px;
+  margin: 6px 0;
+  font-size: 16px;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+ul li {
+  background: #fff;
+  padding: 8px;
+  margin: 4px 0;
+}
+
+.total {
+  font-weight: bold;
+  text-align: center;
 }
 
 input, textarea {
   width: 100%;
-  padding: 8px;
-  margin: 5px 0;
+  padding: 10px;
+  margin: 6px 0;
+  font-size: 15px;
 }
 
-.order {
+.order-btn {
+  width: 100%;
+  padding: 14px;
   background: green;
   color: white;
-  width: 100%;
-  padding: 12px;
-  font-size: 16px;
+  font-size: 18px;
+  border: none;
 }
