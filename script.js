@@ -1,5 +1,5 @@
 const WEB_APP_URL =
-  "https://script.google.com/macros/s/AKfycbyBhTAHWRt2D2YcFmWI0qiAvMZju1qViZE-x_Evi3nMcDdfTR5QAXlagsCjZJIPWHg7ZQ/exec";
+  "https://script.google.com/macros/s/AKfycbzEU4wZVnLf2n8PwDacIyBvIwXnba-MrEp9RI-JFGVxJFEyVFIIKQ0PhoXvAMjYrmxo/exec";
 
 let cart = [];
 let total = 0;
@@ -46,7 +46,7 @@ function placeOrder() {
     body: JSON.stringify(orderData)
   });
 
-  // WhatsApp Message
+  // WhatsApp message (customer side)
   const msg =
     "New Order%0A" +
     "Name: " + name + "%0A" +
